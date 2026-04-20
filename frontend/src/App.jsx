@@ -8,6 +8,7 @@ import { Sidebar } from './components/layout/Sidebar.jsx'
 import { Card } from './components/ui/Card.jsx'
 import { PrimaryButton } from './components/ui/PrimaryButton.jsx'
 import { UploadSection } from './features/UploadSection.jsx'
+import { BidChatAssistant } from './features/BidChatAssistant.jsx'
 import { GenerationStatus } from './features/GenerationStatus.jsx'
 import { ResultSection } from './features/ResultSection.jsx'
 import { WORKFLOW, useTenderEngine } from './hooks/useTenderEngine.js'
@@ -205,6 +206,8 @@ export default function App() {
           </div>
         </main>
       </div>
+
+      <BidChatAssistant />
     </div>
   )
 }

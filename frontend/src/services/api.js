@@ -31,6 +31,16 @@ export function generateProposal(payload) {
   return api.post('/generate', payload)
 }
 
+/** RAG bid Q&A — GET /api/chat/status */
+export function getChatStatus() {
+  return api.get('/chat/status')
+}
+
+/** RAG bid Q&A — POST /api/chat */
+export function postBidChat(message) {
+  return api.post('/chat', { message })
+}
+
 /** Legacy — combined ingest */
 export function ingestTenderPdf(file) {
   const body = new FormData()

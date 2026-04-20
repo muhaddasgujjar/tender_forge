@@ -23,6 +23,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
 
+from core.bid_chat import answer_bid_question, chroma_has_index
 from core.graph import app as tender_workflow
 from core.graph import gatekeeper_node
 from core.ingest import CHROMA_DIR, ingest_pdf_path, run_ingestion
@@ -177,6 +178,10 @@ class RunBody(BaseModel):
     filename: str | None = None
 
 
+class ChatBody(BaseModel):
+    message: str
+
+
 app = FastAPI(title="TenderForge PK API", version="1.0.0")
 
 app.add_middleware(
@@ -196,6 +201,39 @@ app.add_middleware(
 @app.get("/api/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
+
+
+@app.get("/api/chat/status")
+def chat_status() -> dict[str, bool]:
+    """Whether Chroma has an index (upload + generate completed at least once)."""
+    return {"indexed": chroma_has_index()}
+
+
+@app.post("/api/chat")
+def api_chat(body: ChatBody) -> dict[str, str]:
+    """
+    RAG Q&A over indexed tender + company PDFs (dual-collection retrieval + Groq).
+    """
+    msg = (body.message or "").strip()
+    if not msg:
+        raise HTTPException(status_code=400, detail="Message is required.")
+    if not chroma_has_index():
+        raise HTTPException(
+            status_code=400,
+            detail="No knowledge index yet. Upload both PDFs and run Generate first.",
+        )
+    try:
+        answer = answer_bid_question(msg)
+    except FileNotFoundError as exc:
+        raise HTTPException(
+            status_code=400,
+            detail="Vector store not available. Run ingestion after upload.",
+        ) from exc
+    except EnvironmentError as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+    return {"answer": answer}
 
 
 def _require_pdf_name(name: str | None) -> None:

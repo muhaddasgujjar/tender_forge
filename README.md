@@ -136,8 +136,10 @@ python smoke_api.py              # full flow if .env + PDFs exist
 | `GET` | `/api/stream?run_id=` | Server-Sent Events for graph progress |
 | `GET` | `/api/download?run_id=` | Generated `.docx` |
 | `GET` | `/api/runs/{run_id}` | Run summary (status, audit, rejection, etc.) |
+| `GET` | `/api/chat/status` | `{ "indexed": true }` if Chroma has been built (after **Generate**) |
+| `POST` | `/api/chat` | Body: `{ "message": "…" }` — **RAG** over tender + company Chroma → `{ "answer": "…" }` |
 
-Legacy endpoints (`/api/ingest`, `/api/run`) remain for older flows.
+Legacy endpoints (`/api/ingest`, `/api/run`) remain for older flows. The chat uses the same dual collections as the main pipeline; run **Upload** + **Generate** first so retrieval has content.
 
 ---
 
