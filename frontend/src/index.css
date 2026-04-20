@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@import 'tailwindcss';
+
+/**
+ * TenderForge PK — enterprise design tokens (Tailwind v4 @theme).
+ * Slate / navy foundation; emerald success; amber warnings only.
+ */
+@theme {
+  --font-sans:
+    'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji';
+
+  --color-tf-canvas: #f1f5f9;
+  --color-tf-surface: #ffffff;
+  --color-tf-elevated: #f8fafc;
+  --color-tf-border: #e2e8f0;
+  --color-tf-border-strong: #cbd5e1;
+  --color-tf-text: #0f172a;
+  --color-tf-text-secondary: #334155;
+  --color-tf-muted: #64748b;
+  --color-tf-navy-950: #0a1628;
+  --color-tf-navy-900: #0c1e3c;
+  --color-tf-navy-800: #102a4a;
+  --color-tf-navy-700: #1e3a5f;
+  --color-tf-slate-800: #1e293b;
+  --color-tf-slate-600: #475569;
+  --color-tf-success: #059669;
+  --color-tf-success-muted: #10b981;
+  --color-tf-success-bg: #ecfdf5;
+  --color-tf-success-border: #a7f3d0;
+  --color-tf-warning: #d97706;
+  --color-tf-warning-bg: #fffbeb;
+  --color-tf-warning-border: #fcd34d;
+  --color-tf-accent-blue: #2563eb;
+  --color-tf-accent-amber: #ca8a04;
+  --color-tf-accent-red: #b91c1c;
+  --color-tf-terminal-bg: #0b1220;
+  --color-tf-terminal-border: #1e293b;
+  --color-tf-terminal-dim: #94a3b8;
+  --shadow-tf-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-tf-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08),
+    0 2px 4px -2px rgba(15, 23, 42, 0.06);
+  --shadow-tf-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08),
+    0 4px 6px -4px rgba(15, 23, 42, 0.06);
+}
+
+@layer base {
+  html {
+    @apply antialiased;
+  }
+
+  body {
+    @apply m-0 min-h-svh bg-tf-canvas font-sans text-tf-text;
+  }
+
+  #root {
+    @apply min-h-svh;
+  }
+}
